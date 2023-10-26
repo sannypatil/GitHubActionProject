@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'MyWebApp/*' 
   workflow_dispatch:
      inputs:
       production-approval:
