@@ -30,7 +30,7 @@ jobs:
           name: .net-app
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy:
+  deploy-to-Dev:
     runs-on: windows-latest
     needs: build
 
@@ -45,5 +45,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'myfirstgithubactionproject' # Update with your Azure Web App name
-          publish-profile: ${{ secrets.PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.DEV_PUBLISHPROFILE }}
           package: .
