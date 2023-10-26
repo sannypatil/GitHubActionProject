@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'MyWebApp/*' 
+      - 'MyWebApp/MyWebApp/*' 
   workflow_dispatch:
      inputs:
       production-approval:
