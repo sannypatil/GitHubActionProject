@@ -1,5 +1,4 @@
-name: Multi-Stage Deployment
-
+name: Sample Github Action Example
 on:
   push:
     branches:
@@ -11,8 +10,7 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
@@ -20,61 +18,48 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
 
-      - name: Build for Development
-        run: |
-          dotnet build --configuration Release
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
 
-  publish:
+      - name: dotnet publish
+        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v3
+        with:
+          name: development-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+
+  deploy-to-Dev:
     runs-on: windows-latest
     needs: build
 
     steps:
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
-
-      - name: Publish for Development
-        run: |
-          dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/development-app
-
-      - name: Upload artifact for Development deployment
-        uses: actions/upload-artifact@v2
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
         with:
           name: development-app
-          path: ${{env.DOTNET_ROOT}}/development-app
 
-  dev:
+      - name: Deploy to Dev Azure Web App
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'myfirstgithubactionproject'
+          publish-profile: ${{ secrets.DEV_PUBLISHPROFILE }}
+          package:  ./development-app
+          
+  deploy-to-test:
     runs-on: windows-latest
-    needs: publish
+    needs: deploy-to-Dev
 
     steps:
-      - name: Download artifact for Test deployment
-        uses: actions/download-artifact@v2
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
         with:
           name: development-app
 
       - name: Deploy to Test Azure Web App
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'myfirstgithubactionproject'
-          publish-profile: ${{ secrets.DEV_PUBLISHPROFILE }}
-          package: ./development-app
-
-  test:
-    runs-on: windows-latest
-    needs: dev
-
-    steps:
-      - name: Download artifact for Production deployment
-        uses: actions/download-artifact@v2
-        with:
-          name: development-app
-
-      - name: Deploy to Production Azure Web App
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'mygithubactiontest'  
+          app-name: 'mygithubactiontest'
           publish-profile: ${{ secrets.TEST_PUBLISHPROFILE }}
           package: ./development-app
