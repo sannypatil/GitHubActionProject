@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - 'MyHttpFunction/*' 
+      - './MyHttpFunction/*' 
   workflow_dispatch:
 
 env:
