@@ -21,7 +21,7 @@ namespace MyHttpFunction
 
             return new ContentResult
             {
-                Content = "<div style='text-align: center;'><h1>Hello, Santhosh. This HTTP triggered function executed successfully. </h1></div>",
+                Content = "<div style='text-align: center;'><h1>Hello, Rajesh. This HTTP triggered function executed successfully. </h1></div>",
                 ContentType = "text/html",
                 StatusCode = 200
             };
