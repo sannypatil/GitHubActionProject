@@ -8,7 +8,7 @@ on:
      inputs:
       production-approval:
         description: 'Production Deployment Approval'
-        required: false
+        required: true
 
 jobs:
   build-publish:
