@@ -58,7 +58,9 @@ jobs:
     name: Deploy to Test
     runs-on: windows-latest
     needs: deploy-to-dev
-    if: github.event.inputs.production-approval == 'true' || github.event_name == 'workflow_dispatch'
+    environment:
+      name: "Test"
+      url: ${ { steps.deploy-to-webapp-prod.outputs.webapp-url } }
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
