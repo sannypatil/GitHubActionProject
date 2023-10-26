@@ -21,7 +21,7 @@ namespace MyHttpFunction
 
             return new ContentResult
             {
-                Content = "Hello, Santhosh. This HTTP triggered function executed successfully.",
+                Content = "Hello, Rajesh. This HTTP triggered function executed successfully.",
                 ContentType = "text/html",
                 StatusCode = 200
             };
