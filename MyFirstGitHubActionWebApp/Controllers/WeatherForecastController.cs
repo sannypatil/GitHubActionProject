@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace MyFirstGitHubActionWebApp.Controllers
+namespace MyWebApp.Controllers
 {
     [ApiController]
     [Route("[controller]")]

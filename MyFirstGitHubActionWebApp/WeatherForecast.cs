@@ -1,4 +1,4 @@
-namespace MyFirstGitHubActionWebApp
+namespace MyWebApp
 {
     public class WeatherForecast
     {
