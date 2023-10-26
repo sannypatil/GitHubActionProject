@@ -47,3 +47,21 @@ jobs:
           app-name: 'myfirstgithubactionproject' # Update with your Azure Web App name
           publish-profile: ${{ secrets.DEV_PUBLISHPROFILE }}
           package: .
+          
+  deploy-to-test:
+    runs-on: windows-latest
+    needs: build
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: .net-app
+
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: 'myfirstgithubactionproject' # Update with your Azure Web App name
+          publish-profile: ${{ secrets.TEST_PUBLISHPROFILE }}
+          package: .
