@@ -8,6 +8,7 @@ on:
 
 jobs:
   build-publish:
+    name: Build
     runs-on: windows-latest
 
     steps:
@@ -32,6 +33,7 @@ jobs:
           path: ${{env.DOTNET_ROOT}}/development-app
 
   deploy-to-dev:
+    name: Deploy to Dev
     runs-on: windows-latest
     needs: build-publish
 
@@ -49,6 +51,7 @@ jobs:
           package: .
           
   deploy-to-test:
+    name: Deploy to Test
     runs-on: windows-latest
     needs: deploy-to-dev
 
