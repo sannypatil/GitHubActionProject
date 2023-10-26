@@ -45,7 +45,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'mytestwebapp'  # Update with your Test Azure Web App name
-          publish-profile: ${{ secrets.TEST_PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.DEV_PUBLISHPROFILE }}
           package: ./dev-app
 
   production:
@@ -62,5 +62,5 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'myproductionwebapp'  # Update with your Production Azure Web App name
-          publish-profile: ${{ secrets.PRODUCTION_PUBLISHPROFILE }}
+          publish-profile: ${{ secrets.TEST_PUBLISHPROFILE }}
           package: ./dev-app
