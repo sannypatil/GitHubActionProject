@@ -8,7 +8,7 @@ on:
     branches:
       - main
     paths:
-      - './MyHttpFunction/*' 
+      - './MyHttpFunction/*'
   workflow_dispatch:
 
 env:
@@ -20,7 +20,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: 'Checkout GitHub Action'
-        uses: actions/checkout@v4
+        uses: actions/checkout@v2  # Update to version 2
 
       - name: Setup DotNet ${{ env.DOTNET_VERSION }} Environment
         uses: actions/setup-dotnet@v1
