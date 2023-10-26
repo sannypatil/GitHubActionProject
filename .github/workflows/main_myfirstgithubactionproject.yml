@@ -5,6 +5,10 @@ on:
     branches:
       - main
   workflow_dispatch:
+     inputs:
+      production-approval:
+        description: 'Production Deployment Approval'
+        required: false
 
 jobs:
   build-publish:
@@ -54,7 +58,7 @@ jobs:
     name: Deploy to Test
     runs-on: windows-latest
     needs: deploy-to-dev
-
+    if: github.event.inputs.production-approval == 'true' || github.event_name == 'workflow_dispatch'
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
