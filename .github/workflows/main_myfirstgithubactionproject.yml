@@ -33,7 +33,7 @@ jobs:
 
   deploy-to-dev:
     runs-on: windows-latest
-    needs: build
+    needs: build-publish
 
     steps:
       - name: Download artifact from build job
