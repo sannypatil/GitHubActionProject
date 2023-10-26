@@ -1,4 +1,5 @@
 name: Sample Github Action Example
+
 on:
   push:
     branches:
@@ -6,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  build-publish:
     runs-on: windows-latest
 
     steps:
@@ -27,10 +28,10 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v3
         with:
-          name: development-app
+          name: development-app  # Match the name used here
           path: ${{env.DOTNET_ROOT}}/myapp
 
-  deploy-to-Dev:
+  deploy-to-dev:
     runs-on: windows-latest
     needs: build
 
@@ -38,28 +39,28 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: development-app
+          name: development-app  # Match the name used here
 
       - name: Deploy to Dev Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'myfirstgithubactionproject'
           publish-profile: ${{ secrets.DEV_PUBLISHPROFILE }}
-          package:  ./development-app
+          package: ./development-app  # Match the name used here
           
   deploy-to-test:
     runs-on: windows-latest
-    needs: deploy-to-Dev
+    needs: deploy-to-dev
 
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v3
         with:
-          name: development-app
+          name: development-app  # Match the name used here
 
       - name: Deploy to Test Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'mygithubactiontest'
           publish-profile: ${{ secrets.TEST_PUBLISHPROFILE }}
-          package: ./development-app
+          package: ./development-app  # Match the name used here
